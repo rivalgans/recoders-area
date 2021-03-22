@@ -374,6 +374,7 @@ router.get('/fakta', async (req, res, next) => {
          result: randomnix
          })
 })
+
 router.get('/darkjokes', async (req, res, next) => {
         var apikeyInput = req.query.apikey
             
@@ -390,7 +391,54 @@ router.get('/darkjokes', async (req, res, next) => {
          result: randomnix
          })
 })
-
+router.get('/dare', async (req, res, next) => {
+        var apikeyInput = req.query.apikey
+            
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'CaliphGans') return res.json(loghandler.invalidKey)
+          bdyyyy = await fetch('https://raw.githubusercontent.com/Caliph71/txt/main/dare.txt')
+       bdy = await bdyyyy.text()
+        splitnix = bdy.split('\n')
+              
+         randomnix = splitnix[Math.floor(Math.random() * splitnix.length)]
+         res.json({
+         status: true, 
+         creator: creator,
+         result: randomnix
+         })
+})
+router.get('/truth', async (req, res, next) => {
+        var apikeyInput = req.query.apikey
+            
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'CaliphGans') return res.json(loghandler.invalidKey)
+          bdyyyy = await fetch('https://raw.githubusercontent.com/Caliph71/txt/main/truth.txt')
+       bdy = await bdyyyy.text()
+        splitnix = bdy.split('\n')
+              
+         randomnix = splitnix[Math.floor(Math.random() * splitnix.length)]
+         res.json({
+         status: true, 
+         creator: creator,
+         result: randomnix
+         })
+})
+router.get('/katabucin', async (req, res, next) => {
+        var apikeyInput = req.query.apikey
+            
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'CaliphGans') return res.json(loghandler.invalidKey)
+          bdyyyy = await fetch('https://raw.githubusercontent.com/Caliph71/txt/main/katabucin.txt')
+       bdy = await bdyyyy.text()
+        splitnix = bdy.split('\n')
+              
+         randomnix = splitnix[Math.floor(Math.random() * splitnix.length)]
+         res.json({
+         status: true, 
+         creator: creator,
+         result: randomnix
+         })
+})
 router.get('/infonpm', async (req, res, next) => {
         var apikeyInput = req.query.apikey,
             query = req.query.query
