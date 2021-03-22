@@ -542,7 +542,37 @@ router.get('/infonpm', async (req, res, next) => {
 })
 })
 
+router.get('/styletext', async (req, res, next) => {
+    var apikeyInput = req.query.apikey,
+        teks = req.query.teks
 
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'CaliphGans') return res.json(loghandler.invalidKey)
+     if (!teks) return res.json({result: 'Masukkan Parameter teks'})
+    const { JSDOM } = require('jsdom')
+
+    async function stylizeText(text) {
+    let res = await fetch('http://qaz.wtf/u/convert.cgi?text=' + encodeURIComponent(text))
+    let html = await res.text()
+    let dom = new JSDOM(html)
+    let table = dom.window.document.querySelector('table').children[0].children
+    let obj = {}
+    for (let tr of table) {
+      let name = tr.querySelector('.aname').innerHTML
+      let content = tr.children[1].textContent.replace(/^\n/, '').replace(/\n$/, '')
+      obj[name + (obj[name] ? ' Reversed' : '')] = content
+    }
+    console.log(obj)
+    return obj
+}
+   res.json({ status: true, 
+   style: {
+   stylizeText(teks)
+   }
+   })
+})
+   
+     
 router.get('/short/tiny', async (req, res, next) => {
     var apikeyInput = req.query.apikey,
         url = req.query.url
