@@ -6,7 +6,7 @@ var router = express.Router();
 router.get('/', (req, res) => {
     pesan = {
     status: true, 
-    pesan: 'https://caliph-api.herokuapp.com/api'
+    pesan: 'Link Dokumentasi https://caliph-apis.herokuapp.com/api'
 }
 res.json(pesan)
 })
