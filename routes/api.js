@@ -114,7 +114,7 @@ loghandler = {
         status: false,
         creator: `${creator}`,
         code: 406,
-        message: 'apikey invalid, gak punya apikey? chat gw aja yaaa di wa.me/6283898698875 , key nya gratis kok gan, jadi santuyy ajaa'
+        message: 'apikey invalid, gak punya apikey? chat gw aja yaaa di wa.me/6281215199447 , key nya gratis kok gan, jadi santuyy ajaa'
     },
     invalidlink: {
         status: false,
@@ -364,6 +364,22 @@ router.get('/fakta', async (req, res, next) => {
 	if(!apikeyInput) return res.json(loghandler.notparam)
 	if(apikeyInput != 'CaliphGans') return res.json(loghandler.invalidKey)
           bdyyyy = await fetch('https://raw.githubusercontent.com/Caliph71/txt/main/fakta.txt')
+       bdy = await bdyyyy.text()
+        splitnix = bdy.split('\n')
+              
+         randomnix = splitnix[Math.floor(Math.random() * splitnix.length)]
+         res.json({
+         status: true, 
+         creator: creator,
+         result: randomnix
+         })
+})
+router.get('/darkjokes', async (req, res, next) => {
+        var apikeyInput = req.query.apikey
+            
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'CaliphGans') return res.json(loghandler.invalidKey)
+          bdyyyy = await fetch('https://raw.githubusercontent.com/Caliph71/txt/main/darkjokes.txt')
        bdy = await bdyyyy.text()
         splitnix = bdy.split('\n')
               
