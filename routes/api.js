@@ -21,7 +21,7 @@ var fetch = require('node-fetch');
 var cheerio = require('cheerio');
 var request = require('request');
 var TikTokScraper = require('tiktok-scraper');
-const fs = require('fs-extra')
+const fs = require('fs')
 var router  = express.Router();
 
 var { color, bgcolor } = require(__path + '/lib/color.js');
