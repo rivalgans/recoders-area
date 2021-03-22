@@ -4,11 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', (req, res) => {
-    pesan = {
-    status: true, 
-    pesan: 'Link Dokumentasi https://caliph-apis.herokuapp.com/api'
-}
-res.json(pesan)
+    res.sendFile(__path + '/views/kumpulan.html')
 })
 
 router.get('/api', (req, res) => {
