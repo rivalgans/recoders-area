@@ -562,14 +562,12 @@ router.get('/styletext', async (req, res, next) => {
       let content = tr.children[1].textContent.replace(/^\n/, '').replace(/\n$/, '')
       obj[name + (obj[name] ? ' Reversed' : '')] = content
     }
-    console.log(obj)
     return obj
 }
    hasil = await stylizeText(teks)
-   res.json({ status: true, 
-   style: {
-   hasil
-   }
+   res.json({ 
+   status: true, 
+   style: hasil
    })
 })
    
