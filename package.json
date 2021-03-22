@@ -34,7 +34,6 @@
     "moment": "^2.29.1",
     "mongodb": "^3.6.3",
     "monk": "^7.3.3",
-    "fs": "0.0.1-security",
     "morgan": "^1.10.0",
     "needle": "^2.6.0",
     "node-fetch": "^2.6.1",
