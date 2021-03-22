@@ -363,9 +363,8 @@ router.get('/fakta', async (req, res, next) => {
             
 	if(!apikeyInput) return res.json(loghandler.notparam)
 	if(apikeyInput != 'CaliphGans') return res.json(loghandler.invalidKey)
-
-       bdy = fs.readFileSync('./fakta.txt', 'utf-8')
-               
+          bdyyyy = await fetch('https://raw.githubusercontent.com/Caliph71/txt/main/fakta.txt')
+       bdy = await bdyyyy.text()
         splitnix = bdy.split('\n')
               
          randomnix = splitnix[Math.floor(Math.random() * splitnix.length)]
