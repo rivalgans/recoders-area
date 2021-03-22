@@ -8,7 +8,7 @@ var zahirr = db.get("zahirr");
 	console.log('')
 }
 
-var creatorList = ['Recoder\'s Area','Caliph'];
+var creatorList = ['Recoder\'s Area','Caliph','Recoder\'s Area','Caliph'];
 var creator = creatorList[Math.floor(Math.random() * creatorList.length)];
 
 
