@@ -565,10 +565,7 @@ router.get('/styletext', async (req, res, next) => {
     return obj
 }
    hasil = await stylizeText(teks)
-   res.json({ 
-   status: true, 
-   style: hasil
-   })
+     res.json(hasil)
 })
    
      
