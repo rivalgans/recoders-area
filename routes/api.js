@@ -397,7 +397,7 @@ router.get('/dare', async (req, res, next) => {
 	if(!apikeyInput) return res.json(loghandler.notparam)
 	if(apikeyInput != 'CaliphGans') return res.json(loghandler.invalidKey)
           bdyyyy = await fetch('https://raw.githubusercontent.com/Caliph71/txt/main/dare.txt')
-       bdy = await bdyyyy.text()
+       bdy = await bdyyyy.json()
         splitnix = bdy
               
          randomnix = splitnix[Math.floor(Math.random() * splitnix.length)]
@@ -413,7 +413,7 @@ router.get('/truth', async (req, res, next) => {
 	if(!apikeyInput) return res.json(loghandler.notparam)
 	if(apikeyInput != 'CaliphGans') return res.json(loghandler.invalidKey)
           bdyyyy = await fetch('https://raw.githubusercontent.com/Caliph71/txt/main/truth.txt')
-       bdy = await bdyyyy.text()
+       bdy = await bdyyyy.json()
         splitnix = bdy
               
          randomnix = splitnix[Math.floor(Math.random() * splitnix.length)]
@@ -429,7 +429,7 @@ router.get('/katabucin', async (req, res, next) => {
 	if(!apikeyInput) return res.json(loghandler.notparam)
 	if(apikeyInput != 'CaliphGans') return res.json(loghandler.invalidKey)
           bdyyyy = await fetch('https://raw.githubusercontent.com/Caliph71/txt/main/katabucin.txt')
-       bdy = await bdyyyy.text()
+       bdy = await bdyyyy.json()
         splitnix = bdy
               
          randomnix = splitnix[Math.floor(Math.random() * splitnix.length)]
