@@ -1856,17 +1856,27 @@ router.get('/kodepos', async (req, res, next) => {
 
 router.get('/cuaca', async (req, res, next) => {
         var apikeyInput = req.query.apikey,
-	    kabupaten = req.query.kabupaten
+	    kabupaten = req.query.kota
             
 	if(!apikeyInput) return res.json(loghandler.notparam)
 	if(apikeyInput != 'FreeApi') return res.json(loghandler.invalidKey)
-	if(!kabupaten) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter kabupaten"})
-       fetch(encodeURI(`https://docs-api-zahirrr.herokuapp.com/api/cuaca?kabupaten=${kabupaten}`))
+	if(!kabupaten) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter kota"})
+       fetch(encodeURI(`https://rest.farzain.com/api/cuaca.php?id=${kabupaten}&apikey=O8mUD3YrHIy9KM1fMRjamw8eg`))
         .then(response => response.json())
         .then(data => {
-        var result = data;
+        var result = data.respon;
+        if (result.cuaca == null) return res.json({error: 'Maaf daerah kamu tidak tersedia'})
              res.json({
-                 result
+              status: true, 
+              respon: {
+              tempat: result.tempat,
+              angin: result.angin,
+              cuaca: result.cuaca,
+              deks: result.deskripsi,
+              kelembapan: result.kelembapan,
+              suhu: result.suhu,
+              udara: result.udara
+              }  
              })
          })
          .catch(e => {
