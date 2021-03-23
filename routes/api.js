@@ -381,6 +381,20 @@ router.get('/fakta', async (req, res, next) => {
          })
 })
 
+router.get('/qrread', async (req, res) => {
+        var apikeyInput = req.query.apikey
+        var linkqr = req.query.url
+        if (!linkqr) return res.json({result: 'Masukkan Param url'})
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'FreeApi') return res.json(loghandler.invalidKey)
+         var axios = require('axios')
+          axios.get(`http://api.qrserver.com/v1/read-qr-code/?fileurl=${linkqr}`)
+		.then((ress) => {
+			if (ress.data[0].symbol[0].data == null) return res.json({result: `qrcode tidak terdeteksi`})
+			res.json({result: ress.data[0].symbol[0].data})
+})
+})
+
 router.get('/darkjokes', async (req, res, next) => {
         var apikeyInput = req.query.apikey
             
