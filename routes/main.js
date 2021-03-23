@@ -18,13 +18,7 @@ router.get('/about', (req, res) => {
 router.get('/config', (req, res) => {
     config = {
         status: true,
-        result: {
-            prefix : '#',
-            namabot: 'CaliphBot',
-            namaowner: 'Caliph Atibrata',
-            instagram: 'caliph91_',
-            youtube : 'caliph ff'
-        }
+        result: 'Hello World'
     }
     res.json(config)
 })
