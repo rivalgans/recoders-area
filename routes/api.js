@@ -304,34 +304,15 @@ router.get('/tiktod', async (req, res, next) => {
 	if(!apikeyInput) return res.json(loghandler.notparam)
 	if(apikeyInput != 'FreeApi') return res.json(loghandler.invalidKey)
      if (!url) return res.json(loghandler.noturl)
+TikTokScraper.getVideoMeta(url, options)
 
-     const puppeteer = require("puppeteer");
-
-async function getVideo(URL) {
-    const browser = await puppeteer.launch({
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    const page = await browser.newPage();
-    await page.goto('https://snaptik.app/');
-
-    await page.type('#url', `${URL}`);
-    await page.click('#send', { delay: 300 });
-
-    await page.waitForSelector('#download-block > div > a:nth-child(3)', {delay: 300});
-    let mp4direct = await page.$eval("#download-block > div > a:nth-child(3)", (element) => {
-        return element.getAttribute("href");
-    });
-    let image = await page.$eval("#div_download > section > div > div > div > article > div.zhay-left.left > img", (element) => {
-        return element.getAttribute("src");
-    });
-	let textInfo = await page.$eval('#div_download > section > div > div > div > article > div.zhay-middle.center > p:nth-child(2) > span', el => el.innerText);
-	let nameInfo = await page.$eval('#div_download > section > div > div > div > article > div.zhay-middle.center > h1 > a', el => el.innerText);
-	let timeInfo = await page.$eval('#div_download > section > div > div > div > article > div.zhay-middle.center > p:nth-child(3) > b', el => el.innerText);
-	browser.close();
-    return { mp4direct, image, textInfo, nameInfo, timeInfo }
-}
- res.json(await getVideo(url))
+         .then(vid => {
+             console.log(vid)
+             res.json(vid)
+         })
+         .catch(e => {
+             res.json(loghandler.invalidlink)
+         })
 })
 
 router.get('/tiktod/stalk', async (req, res, next) => {
@@ -953,6 +934,27 @@ router.get('/textmaker/senja', async (req, res, next) => {
             res.json(loghandler.error)
         }
 })
+
+router.get('/styletext', async (req, res, next) => {
+	var teksnya = req.query.text,
+		 apikeyInput = req.query.apikey;
+	if(!apikeyInput) return res.json(loghandler.notparam)
+     if(apikeyInput != 'FreeApi') return res.json(loghandler.invalidKey)
+	 if(!teksnya) return res.json({ info: 'masukkan param text'})
+     var { JSDOM } = require('jsdom')
+     
+let respi = await fetch('http://qaz.wtf/u/convert.cgi?text=' + encodeURIComponent(teksnya))
+    let html = await respi.text()
+    let dom = new JSDOM(html)
+    let table = dom.window.document.querySelector('table').children[0].children
+    let obj = {}
+    for (let tr of table) {
+      let name = tr.querySelector('.aname').innerHTML
+      let content = tr.children[1].textContent.replace(/^\n/, '').replace(/\n$/, '')
+      obj[name + (obj[name] ? ' Reversed' : '')] = content
+    }
+    res.json(obj)
+    })
 
 router.get('/kisahnabi', async (req, res, next) => {
 	var nabi = req.query.nabi,
