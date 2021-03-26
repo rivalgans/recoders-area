@@ -649,6 +649,16 @@ router.get('/nulis', async (req, res, next) => {
          restt = await rest.json()
  	res.json({ status: true, url: restt.images[0] })
 })
+router.get('/nulis2', async (req, res, next) => {
+	var text = req.query.text,
+		 apikeyInput = req.query.apikey;
+	if(!apikeyInput) return res.json(loghandler.notparam)
+     if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
+	 if(!text) return res.json(loghandler.nottext)
+         rest = await fetch(`http://salism3.pythonanywhere.com/write?text=${text}`)
+         restt = await rest.json()
+ 	res.sendFile(restt.images[0])
+})
 
 router.get('/textmaker', async (req, res, next) => {
         var theme = req.query.theme,
@@ -922,19 +932,10 @@ router.get('/styletext', async (req, res, next) => {
 	if(!apikeyInput) return res.json(loghandler.notparam)
      if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
 	 if(!teksnya) return res.json({ info: 'masukkan param text'})
-     var { JSDOM } = require('jsdom')
      
-let respi = await fetch('http://qaz.wtf/u/convert.cgi?text=' + encodeURIComponent(teksnya))
-    let html = await respi.text()
-    let dom = new JSDOM(html)
-    let table = dom.window.document.querySelector('table').children[0].children
-    let obj = {}
-    for (let tr of table) {
-      let name = tr.querySelector('.aname').innerHTML
-      let content = tr.children[1].textContent.replace(/^\n/, '').replace(/\n$/, '')
-      obj[name + (obj[name] ? ' Reversed' : '')] = content
-    }
-    res.json(obj)
+let respi = await fetch(`https://recoders-area.caliph.repl.co/api/styletext?apikey=FreeApi&text=` + encodeURIComponent(teksnya))
+    Shtml = await respi.json()
+    res.json(JSON.stringify(Shtml, null, '\t'))
     })
 
 router.get('/kisahnabi', async (req, res, next) => {
