@@ -1,7 +1,9 @@
 __path = process.cwd()
 
 var express = require('express');
-var db = require(__path + '/database/db');
+var db = require(__path + '/database/db')
+
+var ytdl = require('ytdl-core')
 try {
 var zahirr = db.get("zahirr");
 } catch (e) {
@@ -14,7 +16,6 @@ var creator = "Recorder's Area"
 
 
 var ytdl = require('ytdl-core');
-var ytpl = require('ytpl');
 var secure = require('ssl-express-www');
 var cors = require('cors');
 var scrapeYt = require("scrape-yt");
@@ -24,7 +25,7 @@ var request = require('request');
 var TikTokScraper = require('tiktok-scraper');
 const fs = require('fs')
 var router  = express.Router();
-
+var axios = require('axios')
 
 
 var { color, bgcolor } = require(__path + '/lib/color.js');
@@ -160,13 +161,171 @@ var len = 15
             randomlagi += arr[Math.floor(Math.random() * arr.length)];
         }
 
-        var randomTextNumber = random+randomlagi+'---------ZahirGanteng'+'ZHIRRR--GANS';
+        var randomTextNumber = random+randomlagi+'---------CaliphGans'+'Recoders--Area';
         
  
  async function cekApiKey(api) {
  	ap = await zahirr.findOne({apikey:api})
  return ap;
  }
+ router.get('/husbu', async (req, res, next) => {
+
+
+
+
+
+		 apikeyInput = req.query.apikey;
+
+fcx = await fetch('https://raw.githubusercontent.com/Caliph71/txt/main/husbu.js')
+
+data = await fcx.text()
+json = JSON.parse(data)
+randoms = Math.floor(Math.random() * json.length)
+random = json[randoms]
+
+	if(!apikeyInput) return res.json(loghandler.notparam)
+     if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
+	 //if(!text) return res.json(loghandler.nottext)
+	 res.json({
+	   name: random.teks,
+	   url: random.image
+	 })
+})
+router.get('/husbu', async (req, res, next) => {
+
+
+
+		 apikeyInput = req.query.apikey;
+
+fcx = await fetch('https://raw.githubusercontent.com/Caliph71/txt/main/husbu.js')
+
+data = await fcx.text()
+json = JSON.parse(data)
+randoms = Math.floor(Math.random() * json.length)
+random = json[randoms]
+
+	if(!apikeyInput) return res.json(loghandler.notparam)
+     if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
+	 //if(!text) return res.json(loghandler.nottext)
+	 res.json({
+	   name: random.teks,
+	   url: random.image
+	 })
+})
+router.get('/waifu2', async (req, res, next) => {
+
+
+
+		 apikeyInput = req.query.apikey;
+
+
+	if(!apikeyInput) return res.json(loghandler.notparam)
+     if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
+	 //if(!text) return res.json(loghandler.nottext)
+	 const getBuffer = async (url, options) => {
+	try {
+		options ? options : {}
+		const res = await axios({
+			method: "get",
+			url,
+			headers: {
+				'DNT': 1,
+				'Upgrade-Insecure-Request': 1
+			},
+			...options,
+			responseType: 'arraybuffer'
+		})
+		return res.data
+	} catch (e) {
+		console.log(`Error : ${e}`)
+	}
+}
+	 data = await fetchJson('https://waifu.pics/api/sfw/waifu')
+	 res.send(await getBuffer(data.url), res.type('png'))
+})
+router.get('/loli', async (req, res, next) => {
+  apikey = req.query.apikey
+  
+  data = await fetchJson('https://api.vhtear.com/randomloli&apikey=Anakanjing123')
+  var { exec } = require('child_process')
+  exec(`wget ${data.result.result} -O ${__path+'/routes/loli.png'}`, async (err) => {
+  res.sendFile(__path+'/routes/loli.png')
+})
+  
+})
+router.get('/ttp', async (req, res, next) => {
+if (!req.query.q) return res.json({ status: 404, error: 'masukkan param q'})
+data = await fetch(`https://api.areltiyan.site/sticker_maker?text=${encodeURIComponent(req.query.q)}`).then(v => v.json())
+         base64 = data.base64
+         var buffer = base64.slice(22)
+         require('fs').writeFileSync('ttp.png', buffer, 'base64')
+         res.sendFile(__path+'/ttp.png')
+         
+         exec(`ffmpeg -i ttp.png ttp.webp`, (err) => {
+						fs.unlinkSync('ttp.png')
+						if (err) return 
+					    res.sendFile(__path+'/ttp.webp')
+						fs.unlinkSync('ttp.webp')
+					})
+         })
+router.get('/welcome', async (req, res, next) => {
+if (!req.query.name) return res.json({ status: 404, error: 'masukkan param name'})
+if (!req.query.mem) return res.json({ status: 404, error: 'masukkan param mem'})
+if (!req.query.gcname) return res.json({ status: 404, error: 'masukkan param gcname'})
+if (!req.query.picurl) return res.json({ status: 404, error: 'masukkan param picurl'})
+var canvas = require('discord-canvas')
+const welcomer = await new canvas.Welcome()
+                    .setUsername(req.query.name)
+                    .setDiscriminator(req.query.mem)
+                    .setMemberCount(req.query.mem)
+                    .setGuildName(req.query.gcname)
+                    .setAvatar(req.query.picurl)
+                    .setColor('border', '#00100C')
+                    .setColor('username-box', '#00100C')
+                    .setColor('discriminator-box', '#00100C')
+                    .setColor('message-box', '#00100C')
+                    .setColor('title', '#00FFFF')
+                    .setBackground('https://images.unsplash.com/photo-1493514789931-586cb221d7a7?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb')
+                    .toAttachment()
+                const base64 = `${welcomer.toBuffer().toString('base64')}`
+        require('fs').writeFileSync('welkom.png', base64, 'base64')
+      res.sendFile(__path+'/welkom.png')
+})
+		 apikeyInput =
+router.get('/waifu', async (req, res, next) => {
+
+
+
+		 apikeyInput = req.query.apikey;
+
+
+	if(!apikeyInput) return res.json(loghandler.notparam)
+     if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
+	 //if(!text) return res.json(loghandler.nottext)
+	 const getBuffer = async (url, options) => {
+	try {
+		options ? options : {}
+		const res = await axios({
+			method: "get",
+			url,
+			headers: {
+				'DNT': 1,
+				'Upgrade-Insecure-Request': 1
+			},
+			...options,
+			responseType: 'arraybuffer'
+		})
+		return res.data
+	} catch (e) {
+		console.log(`Error : ${e}`)
+	}
+}
+	 data = await fetchJson('https://waifu.pics/api/sfw/waifu')
+	 var { exec } = require('child_process')
+	 exec(`wget ${data.url} -O ${__path+'/routes/waifu.png'}`, async (err) => {
+	   res.sendFile(__path+'/routes/waifu.png')
+	 })
+})
 router.get('/find', async (req, res, next) => {
     var apikey = req.query.apikey
     if (!apikey) return res.json(loghandler.notparam)
@@ -186,7 +345,88 @@ router.get('/find', async (req, res, next) => {
         res.json(loghandler.error)
     }
 })
+router.get('/ytplaymp3', async (req, res, next) => {
+  var text = req.query.text,
 
+		 apikeyInput = req.query.apikey;
+
+	if(!apikeyInput) return res.json(loghandler.notparam)
+     if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
+	 if(!text) return res.json(loghandler.nottext)
+	 try {
+	var { servers, yta, ytv } = require('../lib/y2mate.js')
+
+  var yts = require('yt-search')
+	 results = await yts(text)
+  var vid = results.all.find(video => video.seconds < 3600)
+  url5 = vid.url
+  server = ('id4').toLowerCase()
+  var { dl_link, thumb, title, filesize, filesizeF} = await yta(url5, servers.includes(server) ? server : 'id4')
+	 
+	 res.json({
+	   status: true,
+	   video: vid,
+	  result: { 
+	    title, title,
+	   size: filesize,
+	   source: url5,
+	   url: dl_link
+	  }
+})
+} catch (e) {
+  console.log(new Error(e))
+}
+})
+router.get('/jsholat', async (req, res, next) => {
+
+    var apikey = req.query.apikey
+    var kota = req.query.daerah
+    if (!apikey) return res.json(loghandler.notparam)
+    if (apikey != 'FreeApi') return ressendFile(__path + '/routes/invalidkey.html')
+    if (!kota) return res.json({err: 'Masukkan Param daerah'}).send('Masukkan Parameter Daerah')
+    gets = await fetch(`https://api.pray.zone/v2/times/today.json?city=${kota}`)
+    
+      get = await gets.json()
+res.send({
+     status: true,
+     kota: get.results.city,
+     jadwal: get.results.datetime[0].times
+   })
+})
+router.get('/ytplaymp4', async (req, res, next) => {
+
+  var text = req.query.text;
+
+
+		 apikeyInput = req.query.apikey;
+
+	if(!apikeyInput) return res.json(loghandler.notparam)
+     if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
+	 if(!text) return res.json(loghandler.nottext)
+	 try {
+	var { servers, yta, ytv } = require('../lib/y2mate.js')
+
+  var yts = require('yt-search')
+	 results = await yts(text)
+  var vid = results.all.find(video => video.seconds < 3600)
+  url5 = vid.url
+  server = ('id4').toLowerCase()
+  var { dl_link, thumb, title, filesize, filesizeF} = await ytv(url5, servers.includes(server) ? server : 'id4')
+	 
+	 res.json({
+	   status: true,
+	   video: vid,
+	  result: { 
+	    title, title,
+	   size: filesize,
+	   source: url5,
+	   url: dl_link
+	  }
+})
+} catch {
+res.send('Maaf, Fitur sedang error')
+}
+})
 router.get('/cekapikey', async (req, res, next) => {
 	var apikeyInput = req.query.apikey
 	if(!apikeyInput) return res.json(loghandler.notparam)
@@ -315,6 +555,7 @@ TikTokScraper.getVideoMeta(url, options)
          })
 })
 
+
 router.get('/tiktod/stalk', async (req, res, next) => {
     var apikeyInput = req.query.apikey,
         username = req.query.username
@@ -346,19 +587,16 @@ router.get('/randomquote', async (req, res, next) => {
             
 	if(!apikeyInput) return res.json(loghandler.notparam)
 	if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
-
-       fetch(encodeURI(`https://python-api-zhirrr.herokuapp.com/api/random/quotes`))
-        .then(response => response.json())
-        .then(data => {
-        var result = data;
-             res.json({
-                 creator : `${creator}`,
-                 result
-             })
-         })
-         .catch(e => {
-         	res.json(loghandler.error)
-})
+    byy = await fetch("https://raw.githubusercontent.com/Caliph71/txt/main/quote.json").then(v => v.json())
+    quotess = byy[Math.floor(Math.random() * byy.length)]
+    res.json({ 
+    status: true,
+    quote: { 
+    author: quotess.by,
+    quotes: quotess.quote
+    }
+    })
+    console.log(quotess)
 })
 router.get('/fakta', async (req, res, next) => {
         var apikeyInput = req.query.apikey
@@ -412,8 +650,7 @@ router.get('/dare', async (req, res, next) => {
             
 	if(!apikeyInput) return res.json(loghandler.notparam)
 	if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
-          
-        splitnix = [
+     splitnix = [
  'makan 2 sendok nasi tanpa lauk apapun, kalo seret boleh minum',
         'spill orang yang bikin kamu jedag jedug',
         'telfon crush/pacar sekarang dan ss ke pemain',
@@ -450,8 +687,6 @@ router.get('/dare', async (req, res, next) => {
         'Bilang "KAMU CANTIK BANGET NGGAK BOHONG" ke cowo!',
         'pap ke salah satu anggota grup'
 ]
-
-              
          randomnix = splitnix[Math.floor(Math.random() * splitnix.length)]
          res.json({
          status: true, 
@@ -464,16 +699,41 @@ router.get('/truth', async (req, res, next) => {
             
 	if(!apikeyInput) return res.json(loghandler.notparam)
 	if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
-          
-        splitnix = [                                                                             'menurut kamu crush kamu sekarang itu cocok gak sama kamu?',          'pencapaian yang udah didapet apa aja ditahun ini?',                  'telpon crush kamu, kalo ditanya bilang aja kepencet',                'kalo kamu diputusin sama mantan,apa yang kamu lakuin?',              'pencapaian yang udah didapet apa aja ditahun ini?',                  'siapa yang sempet bikin lu kecewa?',                                 'hal yang bikin kecewa?',                                             'yang paling pendek menurut kamu tapi imut siapa?',                   'seberapa sayang kmu pada bumi?',                                     'lagu yang akhir2 ini di denger?',
-        'siapa nama artis yang pernah kamu bucinin diam-diam?',               'tujuan yang lagi dipengen itu apa?',
-        'punya berapa akun ig? sebutin smua',                                 'kebiasaan terburuk lo pas di sekolah apa?',
-        'pencapaian yang udah didapet apa aja ditahun ini?',                  'apa ketakutan terbesar kamu?',                                       'Sebutkan kejadian yang bikin kamu sakit hati yang masih di inget',
-        'pernah nolak orang? alasannya kenapa?',                              'suka mabar(main bareng)sama siapa?',
-        'Siapa yang paling mendekati tipe pasangan idealmu di sini',          '(bgi yg muslim) pernah ga solat seharian?',
-        'hal yang paling ditakutin?',                                         'pernah jadi selingkuhan orang?',                                     'pernah cinta bertepuk sebelah tangan? kalo pernah sama siapa? rasanya gimana brou?',                                                       'suka sayur gak?',                                                    'hal yang bikin seneng pas lu lagi sedih apa?',
-        'pernah gak nyuri uang nyokap atau bokap? Alesanya?',                 'Siapa nama mantan pacar teman mu yang pernah kamu sukai diam diam?',                                                                       'siapa first love mu?',                                               'apa ketakutan terbesar kamu?',                                       'Kalau boleh atau kalau mau, di gc/luar gc siapa yang akan kamu jadikan sahabat?(boleh beda/sma jenis)',                                    'Pernah suka sama siapa aja? berapa lama?']
-              
+       splitnix = [
+        'menurut kamu crush kamu sekarang itu cocok gak sama kamu?',
+        'pencapaian yang udah didapet apa aja ditahun ini?',
+        'telpon crush kamu, kalo ditanya bilang aja kepencet',
+        'kalo kamu diputusin sama mantan,apa yang kamu lakuin?',
+        'pencapaian yang udah didapet apa aja ditahun ini?',
+        'siapa yang sempet bikin lu kecewa?',
+        'hal yang bikin kecewa?',
+        'yang paling pendek menurut kamu tapi imut siapa?',
+        'seberapa sayang kmu pada bumi?',
+        'lagu yang akhir2 ini di denger?',
+        'siapa nama artis yang pernah kamu bucinin diam-diam?',
+        'tujuan yang lagi dipengen itu apa?',
+        'punya berapa akun ig? sebutin smua',
+        'kebiasaan terburuk lo pas di sekolah apa?',
+        'pencapaian yang udah didapet apa aja ditahun ini?',
+        'apa ketakutan terbesar kamu?',
+        'Sebutkan kejadian yang bikin kamu sakit hati yang masih di inget',
+        'pernah nolak orang? alasannya kenapa?',
+        'suka mabar(main bareng)sama siapa?',
+        'Siapa yang paling mendekati tipe pasangan idealmu di sini',
+        '(bgi yg muslim) pernah ga solat seharian?',
+        'hal yang paling ditakutin?',
+        'pernah jadi selingkuhan orang?',
+        'pernah cinta bertepuk sebelah tangan? kalo pernah sama siapa? rasanya gimana brou?',
+        'suka sayur gak?',
+        'hal yang bikin seneng pas lu lagi sedih apa?',
+        'pernah gak nyuri uang nyokap atau bokap? Alesanya?',
+        'Siapa nama mantan pacar teman mu yang pernah kamu sukai diam diam?',
+        'siapa first love mu?',
+        'apa ketakutan terbesar kamu?',
+        'Kalau boleh atau kalau mau, di gc/luar gc siapa yang akan kamu jadikan sahabat?(boleh beda/sma jenis)',
+        'Pernah suka sama siapa aja? berapa lama?']
+
+
          randomnix = splitnix[Math.floor(Math.random() * splitnix.length)]
          res.json({
          status: true, 
@@ -583,6 +843,60 @@ router.get('/short/tiny', async (req, res, next) => {
          }
      })
 })
+router.get('/short/isgd', async (req, res, next) => {
+
+    var apikeyInput = req.query.apikey,
+
+        url = req.query.url
+
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
+     if (!url) return res.json(loghandler.noturl)
+
+     request(`https://is.gd/create.php?format=simple&url=${url}`, function (error, response, body) {
+         try {
+             res.json({
+                 status : true,
+                 creator : `${creator}`,
+                 result : {
+                     link : `${body}`,
+                 },
+                 message : `jangan lupa follow ${creator}`
+             })
+         } catch (e) {
+             console.log('Error :', color(e,'red'))
+             res.json(loghandler.invalidlink)
+         }
+     })
+})
+router.get('/short/cuttly', async (req, res, next) => {
+
+
+
+    var apikeyInput = req.query.apikey,
+
+        url = req.query.url
+
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
+     if (!url) return res.json(loghandler.noturl)
+
+     shorten = await fetch(`https://cutt.ly/api/api.php?short=${url}&key=4367a5227ec3b074cc1445a23d9355619afc5`)
+     body = await shorten.json()
+         try {
+             res.json({
+                 status : true,
+                 creator : `${creator}`,
+                 result : {
+                     link : `${body.url.shortLink}`,
+                 },
+                 message : `jangan lupa follow ${creator}`
+             })
+         } catch (e) {
+             console.log('Error :', color(e,'red'))
+             res.json(loghandler.invalidlink)
+         }
+})
 
 router.get('/base', async (req, res, next) => {
 	var type = req.query.type,
@@ -648,16 +962,6 @@ router.get('/nulis', async (req, res, next) => {
          rest = await fetch(`http://salism3.pythonanywhere.com/write?text=${text}`)
          restt = await rest.json()
  	res.json({ status: true, url: restt.images[0] })
-})
-router.get('/nulis2', async (req, res, next) => {
-	var text = req.query.text,
-		 apikeyInput = req.query.apikey;
-	if(!apikeyInput) return res.json(loghandler.notparam)
-     if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
-	 if(!text) return res.json(loghandler.nottext)
-         rest = await fetch(`http://salism3.pythonanywhere.com/write?text=${text}`)
-         restt = await rest.json()
- 	res.sendFile(restt.images[0])
 })
 
 router.get('/textmaker', async (req, res, next) => {
@@ -932,10 +1236,19 @@ router.get('/styletext', async (req, res, next) => {
 	if(!apikeyInput) return res.json(loghandler.notparam)
      if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
 	 if(!teksnya) return res.json({ info: 'masukkan param text'})
+     var { JSDOM } = require('jsdom')
      
-let respi = await fetch(`https://recoders-area.caliph.repl.co/api/styletext?apikey=FreeApi&text=` + encodeURIComponent(teksnya))
-    Shtml = await respi.json()
-    res.json(JSON.stringify(Shtml, null, '\t'))
+let respi = await fetch('http://qaz.wtf/u/convert.cgi?text=' + encodeURIComponent(teksnya))
+    let html = await respi.text()
+    let dom = new JSDOM(html)
+    let table = dom.window.document.querySelector('table').children[0].children
+    let obj = {}
+    for (let tr of table) {
+      let name = tr.querySelector('.aname').innerHTML
+      let content = tr.children[1].textContent.replace(/^\n/, '').replace(/\n$/, '')
+      obj[name + (obj[name] ? ' Reversed' : '')] = content
+    }
+    res.json(obj)
     })
 
 router.get('/kisahnabi', async (req, res, next) => {
@@ -1001,7 +1314,7 @@ router.get('/hadits', async (req, res, next) => {
 
 router.get('/quran', async (req, res, next) => {
         var apikeyInput = req.query.apikey,
-            surah = req.query.surah,
+            surah = req.query.surah;
             ayat = req.query.ayat
             
 	if(!apikeyInput) return res.json(loghandler.notparam)
@@ -1021,8 +1334,14 @@ router.get('/quran', async (req, res, next) => {
          	res.json(loghandler.error)
 })
 })
-
-
+router.get('/quran/random', async (req, res, next) => {
+        var apikeyInput = req.query.apikey;
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
+   hehe = await fetch("https://raw.githubusercontent.com/Caliph71/txt/main/quran.json").then(v => v.json())
+   hasil = hehe[Math.floor(Math.random() * hehe.length)]
+   res.json(hasil)
+   })
 router.get('/fbdown', async (req, res, next) => {
         var apikeyInput = req.query.apikey,
             url = req.query.url
@@ -1693,7 +2012,7 @@ router.get('/hilih', async (req, res, next) => {
 	if(!apikeyInput) return res.json(loghandler.notparam)
 	if(apikeyInput != 'FreeApi') return res.sendFile(__path + '/routes/invalidkey.html')
         if(!kata) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter kata"})
-       hilih = kata.replace(/['a','o','u','e','A','O','U','E']/g, "i");
+       hilih = kata.replace(/['a','o','u','e']/g, "i").replace(/['A','O','U','E']/g, "I");
          res.json({ 
         status: true,
         creator: creator, 
@@ -2068,3 +2387,4 @@ router.get('/kuis/tebakgambar', async (req, res, next) => {
 
 
 module.exports = router
+
