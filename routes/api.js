@@ -26,7 +26,7 @@ var TikTokScraper = require('tiktok-scraper');
 const fs = require('fs')
 var router  = express.Router();
 var axios = require('axios')
-
+var { exec } = require('child_process')
 
 var { color, bgcolor } = require(__path + '/lib/color.js');
 var { fetchJson } = require(__path + '/lib/fetcher.js')
