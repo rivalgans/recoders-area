@@ -258,10 +258,10 @@ if (!req.query.q) return res.json({ status: 404, error: 'masukkan param q'})
 data = await fetch(`https://api.areltiyan.site/sticker_maker?text=${encodeURIComponent(req.query.q)}`).then(v => v.json())
          base64 = data.base64
          var buffer = base64.slice(22)
-         require('fs').writeFileSync('ttp.png', buffer, 'base64')
+         await fs.writeFileSync('ttp.png', buffer, 'base64')
          exec(`ffmpeg -i ttp.png ttp.webp`, (err) => {
 						fs.unlinkSync('ttp.png')
-						if (err) return 
+						if (err) return res.json({error: `${err}`})
 					    res.sendFile(__path+'/ttp.webp')
 						fs.unlinkSync('ttp.webp')
 					})
