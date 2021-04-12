@@ -532,9 +532,10 @@ if (!param.num) return res.json({error: 'Masukkan Param num', contoh: '628******
 for (let i = 0; i < param.total; i++) {
 caliph.sendMessage(param.num+'@s.whatsapp.net', param.text ? param.text : 'Caliph Api Spam Wa' , 'conversation')
 }
-res.json({ message: 'Succes Mengirim Spam', num: param.num, teks: param.text}}
+res.json({ message: 'Succes Mengirim Spam', num: param.num, teks: param.text})
 } catch {
 res.json({ error: 'Terjadi Kesalahan, Pastikan Format nya benar'})
+}
 })
 router.get('/remove', (req, res, next) => {
     var apikey = req.query.apikey,
