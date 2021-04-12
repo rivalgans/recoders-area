@@ -186,13 +186,13 @@ var len = 15
 	caliph.on('credentials-updated', () => {
 		fs.writeFileSync('./session.data.json', JSON.stringify(caliph.base64EncodedAuthInfo(), null, '\t'))
 	})
-	caliph.loadAuthInfo(JSON.parse({
+	caliph.loadAuthInfo({
 	"clientID": "Ai+TzEduXAugqDmFVxVnwA==",
 	"serverToken": "1@SocME8/pK5/mzQLDlCsDK0XMpFVyDWjhF39bNQhOGi3KATF2nwYSWM8Q6wl/UlyKYvhe2ubfDxVDWg==",
 	"clientToken": "8axJcCaqar6KyIA+b5XbwHx962+U+nGSLFt5P6mI0ns=",
 	"encKey": "TJPt8uib8rOIawj6/gpQOigqiOCoXfpET8vJxQ6S3lI=",
 	"macKey": "Q2XCeU98oOFBslPFB32mrKCbYMBAK0yku4LVmyng88U="
-}))
+})
 	await caliph.connect({timeoutMs: 30*1000})
 	
 
