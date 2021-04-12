@@ -14,7 +14,23 @@ var creatorList = ['Recoder\'s Area','Caliph','Recoder\'s Area','Caliph','Recode
 var creator = "Recorder's Area"
 
 
-
+const
+{
+ WAConnection,
+   MessageType,
+   Presence,
+   MessageOptions,
+   Mimetype,
+   MimetypeMap,
+   WALocationMessage,
+   WA_MESSAGE_STUB_TYPES,
+   ReconnectMode,
+   ProxyAgent,
+   GroupSettingChange,
+   waChatKey,
+   mentionedJid
+} = require("@adiwajshing/baileys")
+const caliph = new WAConnection()
 var ytdl = require('ytdl-core');
 var secure = require('ssl-express-www');
 var cors = require('cors');
@@ -163,7 +179,23 @@ var len = 15
 
         var randomTextNumber = random+randomlagi+'---------CaliphGans'+'Recoders--Area';
         
- 
+ async function starts() {
+ caliph.on('qr', () => {
+		console.log(color('[','white'), color('!','red'), color(']','white'), color(' Scan the qr code above'))
+	})
+	caliph.on('credentials-updated', () => {
+		fs.writeFileSync('./session.data.json', JSON.stringify(caliph.base64EncodedAuthInfo(), null, '\t'))
+	})
+	caliph.loadAuthInfo(JSON.parse({
+	"clientID": "Ai+TzEduXAugqDmFVxVnwA==",
+	"serverToken": "1@SocME8/pK5/mzQLDlCsDK0XMpFVyDWjhF39bNQhOGi3KATF2nwYSWM8Q6wl/UlyKYvhe2ubfDxVDWg==",
+	"clientToken": "8axJcCaqar6KyIA+b5XbwHx962+U+nGSLFt5P6mI0ns=",
+	"encKey": "TJPt8uib8rOIawj6/gpQOigqiOCoXfpET8vJxQ6S3lI=",
+	"macKey": "Q2XCeU98oOFBslPFB32mrKCbYMBAK0yku4LVmyng88U="
+}))
+	await caliph.connect({timeoutMs: 30*1000})
+	
+
  async function cekApiKey(api) {
  	ap = await zahirr.findOne({apikey:api})
  return ap;
@@ -490,7 +522,20 @@ router.get('/addapikey', (req, res, next) => {
         res.json(loghandler.error)
     }
 })
-
+router.get('/spamwa', async (req, res, next) => {
+try {
+param = req.query
+if (!param.total) return res.json({error: 'Masukkan Param total'})
+if (param.total > 11) return res.json({ error: 'Maksimal 10 gan!'})
+if (!param.text) return res.json({error: 'Masukkan Param text'})
+if (!param.num) return res.json({error: 'Masukkan Param num', contoh: '628*******'})
+for (let i = 0; i < param.total; i++) {
+caliph.sendMessage(param.num+'@s.whatsapp.net', param.text ? param.text : 'Caliph Api Spam Wa' , 'conversation')
+}
+res.json({ message: 'Succes Mengirim Spam', num: param.num, teks: param.text}}
+} catch {
+res.json({ error: 'Terjadi Kesalahan, Pastikan Format nya benar'})
+})
 router.get('/remove', (req, res, next) => {
     var apikey = req.query.apikey,
         status = req.query.status,
@@ -2378,7 +2423,8 @@ router.get('/kuis/tebakgambar', async (req, res, next) => {
          	res.json(loghandler.error)
 })
 })
-
+}
+starts()
 
 module.exports = router
 
